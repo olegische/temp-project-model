@@ -1,0 +1,97 @@
+'project:
+'id: none
+'file: object.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Primary (lib 'primary-actor'), Memory, Protocol (lib 'system'), GUI (lib 'gui'), Secondary (lib 'secondary-actor')
+'description: Library 'object' for activity diagrams project ''.
+
+@startuml
+'dependencies'
+!include $GUI_LIB
+!include $PRIMARY_LIB
+!include $SECONDARY_LIB
+!include $SYS_LIB!PROTOCOL
+!include $SYS_LIB!MEMORY
+
+'sub-functions'
+!include $OBJECT_SUBFUNC_LIB!MANUAL
+!include $OBJECT_SUBFUNC_LIB!AUTO
+
+!function $create()
+  |Primary|
+  if(how?) then (manual)
+    $manual()
+  else (auto)
+    $auto()
+  endif
+!endfunction
+
+!function $read()
+  $Primary("push", "Button", $BUTTON_MICE_RIGHT)
+  $Memory("get", $MEM_OBJECT)
+  $GUI("create", "Form", $WIN_OBJECT, $MEM_OBJECT, "Button", $BUTTON_MICE_RIGHT)
+  $Primary("push", "Button", $BUTTON_WIN_OBJECT_NO)
+  $GUI("close", "Form", $WIN_OBJECT, "", "Button", $BUTTON_WIN_OBJECT_NO)
+!endfunction
+
+!function $update()
+  $Primary("push", "Button", $BUTTON_MICE_RIGHT)
+  $Memory("get", $MEM_OBJECT)
+  $GUI("create", "Form", $WIN_OBJECT, $MEM_OBJECT, "Button", $BUTTON_MICE_RIGHT)
+  $Primary("fill", "Form", $WIN_OBJECT)
+  if (update Object?) then (yes)
+    |System|
+    :check Primary data;
+    $Primary("push", "Button", $BUTTON_WIN_OBJECT_YES)
+    $GUI("close", "Form", $WIN_OBJECT, "", "Button", $BUTTON_WIN_OBJECT_YES)
+  else (no)
+    $Primary("push", "Button", $BUTTON_WIN_OBJECT_NO)
+    $GUI("close", "Form", $WIN_OBJECT, "", "Button", $BUTTON_WIN_OBJECT_NO)
+  endif
+!endfunction
+
+!function $delete()
+  $Primary("push", "Button", $BUTTON_OBJECT_DELETE)
+  $GUI("create", "Form", $WIN_OBJECT_DELETE, "", "Button", $BUTTON_OBJECT_DELETE)
+  if (delete Object?) then (yes)
+    $Primary("push", "Button", $BUTTON_WIN_OBJECT_DELETE_YES)
+    $GUI("close", "Form", $WIN_OBJECT_DELETE, "", "Button", $BUTTON_WIN_OBJECT_DELETE_YES)
+    $Memory("delete", $MEM_OBJECT)
+  else (no)
+    $Primary("push", "Button", $BUTTON_WIN_OBJECT_DELETE_NO)
+    $GUI("close", "Form", $WIN_OBJECT_DELETE, "", "Button", $BUTTON_WIN_OBJECT_DELETE_NO)
+  endif
+!endfunction
+
+!function $tag()
+  $Primary("set", "Combobox", $COMBOBOX_TAG)
+  $GUI("update", "Combobox", $COMBOBOX_TAG, "Primary data", "Primary", "")
+  $Memory("set", $MEM_TAG_MAP)
+!endfunction
+
+!function $Object($method)
+  !if ($method == "create")
+    partition "$method" {
+      $create()
+    }
+  !elseif ($method == "read")
+    partition "$method" {
+      $read()
+    }
+  !elseif ($method == "update")
+    partition "$method" {
+      $update()
+    }
+  !elseif ($method == "delete")
+    partition "$method" {
+      $delete()
+    }
+  !elseif ($method == "tag")
+    partition "$method" {
+      $tag()
+    }
+  !endif
+!endfunction
+@enduml

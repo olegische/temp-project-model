@@ -1,0 +1,22 @@
+'project:
+'id:
+'file: ad-object-tag.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Object (library 'object')
+'description: Activity diagram for part <> <> scenario.
+
+@startuml
+'const'
+!include ../lib/const.plantuml!LIBRARY
+'objects'
+!include ../lib/$OBJECT_LIB
+
+'main'
+|Primary|
+start
+$Object("tag")
+|System|
+stop
+@enduml

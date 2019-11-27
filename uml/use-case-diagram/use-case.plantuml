@@ -1,0 +1,44 @@
+'project:
+'id:
+'file: use-case.plantuml
+'version:
+'autor:
+'date:
+'dependencies: no
+'description: Use case diagram for template project.
+
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+allow_mixing
+'actors'
+!$Primary = "Actor1"
+!$Secondary = "Actor2"
+
+'use case'
+!$obj_create = "create Object"
+!$obj_read = "read Object"
+!$obj_update = "update Object"
+!$obj_delete = "delete Object"
+!$obj_tag = "tag Object"
+
+actor "$Primary"
+actor "$Secondary"
+
+rectangle System{
+  rectangle UC1 {
+    usecase "$obj_create" as UC1
+    usecase "$obj_read" as UC1_2
+    usecase "$obj_update" as UC1_3
+    usecase "$obj_delete" as UC1_4
+    usecase "$obj_tag" as UC1_5
+    "$Primary" --> UC1
+      UC1_2 ..> UC1:extends
+        "$Secondary" -> UC1_2
+      UC1_3 ..> UC1:extends
+        UC1_3 -> "$Secondary"
+      UC1_4 ..> UC1:extends
+      UC1_5 .> UC1:include
+  }
+}
+@enduml

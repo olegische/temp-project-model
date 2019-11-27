@@ -1,0 +1,48 @@
+'project:
+'id:
+'file: ad-object-create-general.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Object (library 'object')
+'description: General activity diagram for <> scenario ''.
+
+@startuml
+'const'
+!include lib/const.plantuml!LIBRARY
+'dependencies'
+!include lib/$OBJECT_LIB
+
+'main'
+|Primary|
+start
+'Primary actor can create, read, update, delete, tag objects
+if (create) then (yes)
+  'Normal flow'
+  $Object("create")
+else (no)
+  |Primary|
+  'Alternative flow'
+  if (read) then (yes)
+    $Object("read")
+  else (no)
+    |Primary|
+    if (update) then (yes)
+      $Object("update")
+    else (no)
+      |Primary|
+      if (delete) then (yes)
+        $Object("delete")
+      else(no)
+        |Primary|
+        if (tag) then (yes)
+          $Object("tag")
+        else (no)
+        endif
+      endif
+    endif
+  endif
+endif
+|System|
+stop
+@enduml

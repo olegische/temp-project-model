@@ -1,0 +1,44 @@
+'project:
+'id: none
+'file: primary-actor.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Button, Combobox, Textfield, Checkbox (library 'gui-widgets')
+'description: Library 'primary-actor' for activity diagrams project ''.
+
+@startuml
+!function $Primary($action, $object, $object_name)
+  !if ($action == "push")
+    |Primary|
+    !if ($object == "Button")
+      :$action
+        $Button($object_name)
+      ;
+    !endif
+  !elseif ($action == "fill")
+    |Primary|
+    !if ($object == "Form")
+      :$action $object "$object_name";
+    !endif
+  !elseif ($action == "set")
+    |Primary|
+    !if ($object == "Combobox")
+      :$action
+        $Combobox($object_name)
+      ;
+''    !elseif ($object == "Widget")
+''      :$action $object
+''      in Form $object_name;
+    !elseif ($object == "Textfield")
+      :$action
+        $Textfield($object_name)
+      ;
+    !elseif ($object == "Checkbox")
+      :$action
+        $Checkbox($object_name)
+      ;
+    !endif
+  !endif
+!endfunction
+@enduml

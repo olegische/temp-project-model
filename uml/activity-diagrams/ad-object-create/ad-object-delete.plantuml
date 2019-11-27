@@ -1,0 +1,22 @@
+'project:
+'id:
+'file: ad-object-delete.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Object (library 'object')
+'description: Activity diagram for part <> <> scenario.
+
+@startuml
+'const'
+!include ../lib/const.plantuml!LIBRARY
+'objects'
+!include ../lib/$OBJECT_LIB
+
+'main'
+|Primary|
+start
+$Object("delete")
+|System|
+stop
+@enduml

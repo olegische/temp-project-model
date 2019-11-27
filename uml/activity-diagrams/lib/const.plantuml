@@ -1,0 +1,18 @@
+'project:
+'id: none
+'file: const.plantuml
+'version:
+'autor:
+'date:
+'dependencies: no
+'description: Constants for activity diagrams project ''.
+
+@startuml(id=LIBRARY)
+!global $OBJECT_LIB = "object.plantuml"
+!global $OBJECT_SUBFUNC_LIB = "object-subfunc.plantuml"
+!global $GUI_LIB = "gui.plantuml"
+!global $GUI_WIDGETS_LIB = "gui-widgets.plantuml"
+!global $PRIMARY_LIB = "primary-actor.plantuml"
+!global $SYS_LIB = "system.plantuml"
+!global $SECONDARY_LIB = "secondary-actor.plantuml"
+@enduml

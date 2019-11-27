@@ -1,0 +1,68 @@
+'project:
+'id: none
+'file: gui.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Button, Combobox, Textfield, Checkbox (library 'gui-widgets')
+'description: Library 'gui' for activity diagrams project ''.
+
+@startuml
+'const'
+!global $WIN_OBJECT_MAP = "Object map"
+!global $WIN_OBJECT = "Object configuration"
+!global $WIN_OBJECT_DELETE = "Delete object from network map"
+!global $WIN_SCAN = "Scan options"
+
+!global $BUTTON_OBJECT_CREATE = "Add object"
+!global $BUTTON_WIN_OBJECT_YES = "Apply"
+!global $BUTTON_WIN_OBJECT_NO = "X"
+
+!global $BUTTON_SCAN = "Scan"
+!global $BUTTON_SCAN_STOP = "Stop"
+!global $BUTTON_WIN_SCAN_YES = "Agree"
+!global $BUTTON_WIN_SCAN_NO = "X"
+!global $BUTTON_WIN_OBJECT_DEL = "Delete object"
+!global $PROGRESSBAR_SCAN = "Scan status"
+
+!global $BUTTON_OBJECT_DELETE = "Delete object"
+!global $BUTTON_WIN_OBJECT_DELETE_YES = "Delete object"
+!global $BUTTON_WIN_OBJECT_DELETE_NO = "X"
+
+!global $BUTTON_MICE_RIGHT = "Right mice button"
+!global $BUTTON_MICE_LEFT = "Left mice button"
+
+!global $COMBOBOX_TAG = "Protocol tag"
+
+'dependencies'
+!include $GUI_WIDGETS_LIB!BUTTON
+!include $GUI_WIDGETS_LIB!COMBOBOX
+!include $GUI_WIDGETS_LIB!TEXTFIELD
+!include $GUI_WIDGETS_LIB!CHECKBOX
+
+!function $GUI($method, $type, $name, $param, $init_type, $init_name)
+  !if ($type == "Button")
+    |System|
+    :$method
+      $Button($name)
+    ;
+  !else
+    !$append = ""
+    !if ($method == "create")
+      !$append = "with " + $param + " data"
+    !elseif ($method == "update")
+      !if ($type == "Form")
+        !$append = "with " + $param + " data"
+''      !elseif ($type == "Widget")
+''        !$append = "in Form '" + $param + "'"
+      !elseif ($type == "Textfield")
+        !$append = "with " + $param + " data"
+      !endif
+    !endif
+    |System|
+    :$method $type "$name"
+    $append
+    (signal from $init_type "$init_name");
+  !endif
+!endfunction
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+!function $Window($method, $title, $content)
+!endfunction
+
+$Window("open", "Title", $content)
+@enduml

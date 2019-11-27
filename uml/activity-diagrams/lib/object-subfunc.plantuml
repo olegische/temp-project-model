@@ -1,0 +1,80 @@
+'project:
+'id: none
+'file: object-subfunc.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Primary (lib 'primary-actor'), Memory, Protocol (lib 'system'), GUI (lib 'gui'), Secondary (lib 'secondary-actor')
+'description: Library 'object-subfunc' for activity diagrams project ''.
+
+@startuml(id=MANUAL)
+!function $manual()
+  partition "manual" {
+    $Primary("push", "Button", $BUTTON_OBJECT_CREATE)
+    $Memory("set", $MEM_OBJECT)
+    note right
+      default values
+    end note
+  }
+!endfunction
+@enduml
+
+@startuml(id=AUTO)
+!function $auto()
+  partition "auto" {
+    $Primary("push", "Button", $BUTTON_SCAN)
+    $Memory("get", $MEM_PORT)
+    $GUI("create", "Form", $WIN_SCAN, $MEM_PORT, "Button", $BUTTON_SCAN)
+    note right
+      deactivate widgets
+      except buttons
+    end note
+    |Primary|
+    if(scan?) then (agree)
+      $Primary("push", "Button", $BUTTON_WIN_SCAN_YES)
+      |System|
+      fork
+        $GUI("close", "Form", $WIN_SCAN, "", "Button", $BUTTON_WIN_SCAN_YES)
+      fork again
+        $GUI("activate", "Progressbar", $PROGRESSBAR_SCAN, "", "Button", $BUTTON_WIN_SCAN_YES)
+      fork again
+        $GUI("remove", "Button", $BUTTON_SCAN, "", "Button", $BUTTON_WIN_SCAN_YES)
+        $GUI("add", "Button", $BUTTON_SCAN_STOP, "", "", "")
+      end fork
+      |System|
+      :stop_scan := False;
+      $Memory("get", "next_obj_num")
+      while (o_num < 9999 & stop_scan != True)
+        |Primary|
+        if(push Stop scan?) then (no)
+          partition "Protocol" {
+            $Protocol("create", "Request", "Secondary")
+            $Protocol("send", "Request", "Secondary")
+            $Secondary("get", "Request")
+            $Protocol("get", "Response", "Secondary")
+          }
+        $Memory("set", $MEM_OBJECT)
+        else (yes)
+          $Primary("push", "Button", $BUTTON_SCAN_STOP)
+          |System|
+          fork
+            $GUI("deactivate", "Progressbar", $PROGRESSBAR_SCAN, "", "Button", $BUTTON_SCAN_STOP)
+          fork again
+            $GUI("remove", "Button", $BUTTON_SCAN_STOP, "", "Button", $BUTTON_SCAN_STOP)
+            $GUI("add", "Button", $BUTTON_SCAN, "", "", "")
+          fork again
+            :stop_scan = True;
+          end fork
+        |Primary|
+        endif
+        |System|
+        $Memory("get", "next_obj_num")
+      endwhile
+    else (cancel)
+      $Primary("push", "Button", $BUTTON_WIN_SCAN_NO)
+      $GUI("close", "Form", $WIN_SCAN, "", "Button", $BUTTON_WIN_SCAN_NO)
+    |Primary|
+    endif
+  }
+!endfunction
+@enduml

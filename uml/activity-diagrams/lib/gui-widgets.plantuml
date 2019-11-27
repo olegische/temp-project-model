@@ -1,0 +1,44 @@
+'project:
+'id:
+'file: gui-widgets.plantuml
+'version:
+'autor:
+'date:
+'dependencies: no
+'description: Library 'gui-widgets' for activity diagrams project ''.
+
+@startuml(id=BUTTON)
+!function $Button($name)
+  {{
+    salt
+      { [$name] }
+  }}
+!endfunction
+@enduml
+
+@startuml(id=COMBOBOX)
+!function $Combobox($name)
+  {{
+    salt
+      { ^$name^ }
+  }}
+!endfunction
+@enduml
+
+@startuml(id=TEXTFIELD)
+!function $Textfield($name)
+  {{
+    salt
+      { "$name" }
+  }}
+!endfunction
+@enduml
+
+@startuml(id=CHECKBOX)
+!function $Checkbox($name)
+  {{
+    salt
+      { [X] $name }
+  }}
+!endfunction
+@enduml

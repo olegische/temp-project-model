@@ -1,0 +1,52 @@
+'project:
+'id: none
+'file: system.plantuml
+'version:
+'autor:
+'date:
+'dependencies: no
+'description: Library 'system' for activity diagrams project ''.
+
+@startuml(id=PROTOCOL)
+!$func_proto = "0x08"
+!$data_proto = "00 sub-function, data = 1"
+!global $ex_code_addr = "02"
+
+!function $Protocol($method, $type, $object)
+  |System|
+  !if ($method == "create")
+    !if ($object == "Secondary")
+      !$func = $func_proto
+      !$data = $data_proto
+    !endif
+    :$method $type:
+    function $func
+    $data;
+  !elseif ($method == "send")
+    :$method $type to $object;
+  !elseif ($method == "get")
+    :$method $type from $object;
+  !elseif ($method == "expire")
+    :$method $type;
+  !endif
+!endfunction
+@enduml
+
+@startuml(id=MEMORY)
+!global $MEM_PORT = "Port"
+!global $MEM_PORT_MAP = "Port map"
+!global $MEM_OBJECT_MAP = "Object map"
+!global $MEM_OBJECT = "Secondary"
+!global $MEM_TAG_MAP = "Protocol Tag map"
+
+!function $Memory($method, $data)
+  |System|
+  !if ($method == "set")
+    :$method $data data to System memory;
+  !elseif ($method == "get")
+    :$method $data data from System memory;
+  !elseif ($method == "delete")
+    :$method $data data from System memory;
+  !endif
+!endfunction
+@enduml

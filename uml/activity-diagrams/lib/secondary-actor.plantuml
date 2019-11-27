@@ -1,0 +1,28 @@
+'project:
+'id: none
+'file: secondary-actor.plantuml
+'version:
+'autor:
+'date:
+'dependencies: Protocol (library 'system')
+'description: Library 'secondary-actor' for activity diagrams project ''.
+
+@startuml
+!function $Secondary($action, $object)
+  |Secondary|
+  !if ($action == "get")
+    if(active?) then (yes)
+      :$action $object;
+      if (support function?) then (yes)
+        $Secondary("send", "Response")
+      else (no)
+        $Secondary("send", "Error")
+      endif
+    else (no)
+      $Protocol("expire", "timeout", "Secondary")
+    endif
+  !elseif ($action == "send")
+    :$action $object;
+  !endif
+!endfunction
+@enduml
