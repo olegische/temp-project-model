@@ -1,0 +1,20 @@
+'project:
+'id:
+'file: mindmap.plantuml
+'version:
+'autor:
+'date:
+'dependencies: no
+'description: Mindmap for template project.
+
+@startmindmap
++ Central topic
+++ right topic
++++ mind 1
++++ mind 2
++++ mind 3
+-- left topic
+--- mind 1
+--- mind 2
+--- mind 3
+@endmindmap
