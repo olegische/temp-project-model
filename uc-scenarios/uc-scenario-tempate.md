@@ -19,9 +19,15 @@ PRE-1
 POST-1
 
 # Normal Flow
+```
+usecase $obj_create" as UC1
+```
 1.0
 
 # Alternative Flow
+```
+usecase "$obj_read" as UC1_1
+```
 1.1
 
 # Exceptions
