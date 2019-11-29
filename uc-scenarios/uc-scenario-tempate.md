@@ -2,7 +2,7 @@
 ID: UC1   
 Name:  
 Created By:   
-Date Created:
+Date Created:  
 
 # Actors
 ## Primary
@@ -13,10 +13,10 @@ Date Created:
 # Trigger
 
 # Preconditions
-PRE-1.
+PRE-1
 
 # Postconditions
-POST-1.
+POST-1
 
 # Normal Flow
 1.0
