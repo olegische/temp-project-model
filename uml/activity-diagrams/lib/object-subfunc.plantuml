@@ -4,7 +4,7 @@
 'version:
 'autor:
 'date:
-'dependencies: Primary (lib 'primary-actor'), Memory, Protocol (lib 'system'), GUI (lib 'gui'), Secondary (lib 'secondary-actor')
+'dependencies: Primary (lib 'actor-primary'), Memory, Protocol (lib 'system'), GUI (lib 'gui'), Secondary (lib 'actor-secondary')
 'description: Library 'object-subfunc' for activity diagrams project ''.
 
 @startuml(id=MANUAL)

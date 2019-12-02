@@ -4,14 +4,14 @@
 'version:
 'autor:
 'date:
-'dependencies: Primary (lib 'primary-actor'), Memory, Protocol (lib 'system'), GUI (lib 'gui'), Secondary (lib 'secondary-actor')
+'dependencies: Primary (lib 'actor-primary'), Memory, Protocol (lib 'system'), GUI (lib 'gui'), Secondary (lib 'actor-secondary')
 'description: Library 'object' for activity diagrams project ''.
 
 @startuml
 'dependencies'
 !include $GUI_LIB
-!include $PRIMARY_LIB
-!include $SECONDARY_LIB
+!include $ACT_PRIMARY_LIB
+!include $ACT_SECONDARY_LIB
 !include $SYS_LIB!PROTOCOL
 !include $SYS_LIB!MEMORY
 

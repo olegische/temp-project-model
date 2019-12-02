@@ -12,7 +12,7 @@
 !global $OBJECT_SUBFUNC_LIB = "object-subfunc.plantuml"
 !global $GUI_LIB = "gui.plantuml"
 !global $GUI_WIDGETS_LIB = "gui-widgets.plantuml"
-!global $PRIMARY_LIB = "primary-actor.plantuml"
 !global $SYS_LIB = "system.plantuml"
-!global $SECONDARY_LIB = "secondary-actor.plantuml"
+!global $ACT_PRIMARY_LIB = "actor-primary.plantuml"
+!global $ACT_SECONDARY_LIB = "actor-secondary.plantuml"
 @enduml
