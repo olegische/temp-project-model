@@ -1,11 +1,9 @@
 'project:
-'id:
 'file: ad-object-tag.plantuml
 'version:
 'autor:
 'date:
 'dependencies: Object (library 'object')
-'description: Activity diagram for part <> <> scenario.
 
 @startuml
 'const'

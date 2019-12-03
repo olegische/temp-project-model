@@ -1,11 +1,9 @@
 'project:
-'id:
 'file: ad-object-create-general.plantuml
 'version:
 'autor:
 'date:
 'dependencies: Object (library 'object')
-'description: General activity diagram for <> scenario ''.
 
 @startuml
 'const'

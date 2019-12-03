@@ -1,11 +1,9 @@
 'project:
-'id:
 'file: use-case.plantuml
 'version:
 'autor:
 'date:
 'dependencies: no
-'description: Use case diagram for template project.
 
 @startuml
 left to right direction

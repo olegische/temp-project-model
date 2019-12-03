@@ -1,11 +1,9 @@
 'project:
-'id:
 'file: mindmap.plantuml
 'version:
 'autor:
 'date:
 'dependencies: no
-'description: Mindmap for template project.
 
 @startmindmap
 + Central topic
