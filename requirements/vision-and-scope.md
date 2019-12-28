@@ -1,3 +1,7 @@
+# Meta
+Project:  
+Author:  
+Date created:  
 # 1. Business requirements
 ## 1.1. Background
 ## 1.2. Business opportunity
