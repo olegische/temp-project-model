@@ -1,35 +1,79 @@
+'project:
+'file: rd-create-object.plantuml
+'version: 1.0
+'autor:
+'date:
+'dependencies: no
+
 @startuml
-actor teacher
-entity student_database
-boundary "main menu screen" as main_menu_screen
-boundary "add student screen" as add_student_screen
-control "display add student screen" as display_add_student_screen
-control "display main menu" as display_main_menu
-control "display notification student added successful" as display_notification_student_added_successful
-control "add student" as add_student
-teacher -- main_menu_screen
-teacher -- add_student_screen
-main_menu_screen --> display_add_student_screen : "add button pressed"
-display_add_student_screen --> add_student_screen
-display_main_menu --> main_menu_screen
-add_student_screen -- add_student : "next button pressed"
-add_student --> student_database : "successful"
-add_student --> display_main_menu : "successful"
-add_student --> display_notification_student_added_successful : "successful"
-note right of teacher : This is actor
-note right of main_menu_screen : This is boundary object
-note right of student_database : This is entity object
-note right of add_student : This is control object
+!$Obj = "Message"
+!$Method = "create"
+
+'actors'
+!$Act = "Operator"
+
+'entities'
+!$TableObj = "Table '" + $Obj + "'"
+!$TableR = "Table 'roles'"
+
+'boundaries'
+!$InterfaceMain = "Interface 'Dashboard'"
+!$InterfaceObjMethod = "Interface '" + $Method + " " + $Obj + "'"
+'error handling'
+!$ErrorMethodLimit = "Error '" + $Method + " " + $Obj + "'"
+
+'controls'
+!$displayInterfaceMain = "display " + $InterfaceMain
+!$displayInterfaceObjMethod = "display " + $InterfaceObjMethod
+!$methodObj = $Method + " " + $Obj
+'error handling'
+!$checkMethod = "check limit '" + $Method + " " + $Obj + "'"
+!$displayError = "display " + $ErrorMethodLimit
+
+actor "$Act" as act
+
+entity "$TableObj" as table_obj
+'entity "$TableR" as table_roles
+
+boundary "$InterfaceMain" as interface_main
+boundary "$InterfaceObjMethod" as interface_obj_method
+'error handling'
+boundary "$ErrorMethodLimit" as error_method #red
+
+control "$displayInterfaceMain" as display_interface_main
+control "$displayInterfaceObjMethod" as display_interface_obj_method
+control "$methodObj" as method_obj
+'error handling'
+control "$checkMethod" as check_method
+control "$displayError" as display_error #red
+
+act -- interface_main
+act -- interface_obj_method
+
+interface_main --> display_interface_obj_method : "$methodObj action"
+'display_interface_obj_method --> table_roles : "select Dashboard Roles list"
+display_interface_obj_method --> interface_obj_method
+interface_obj_method --> check_method : "save $Obj action"
+check_method --> method_obj : "successful"
+method_obj --> table_obj : "insert $Obj"
+method_obj --> display_interface_main : "successful"
+display_interface_main --> interface_main
+'error handling'
+check_method --> display_error : "max limit"
+display_error --> error_method
+
 note as scenario
-Главная последовательность:
-    1) учитель выбирает в главном меню пункт “добавить ученика“;
-    2) система показывает учителю окно добавления ученика,
-         содержащее поля для ввода логина и пароля,
-         а также кнопки “далее” и “назад”;
-    3) учитель вводит желаемый логин и пароль
-         ученика, нажимает кнопку “далее”;
-    4) система добавляет ученика;
-    5) учителю открывается главное меню и в течении 5 секунд
-        выводится уведомление о том, что ученик был добавлен успешно.
+
+  # Normal Flow
+  1.0 create Message
+  1. Оператор указывает, что хочет добавить виджет сообщения на дэшборд
+  2. Система проверяет превышение лимита хранящихся одновременно сообщений
+  3. Система отображает виджет на дэшборде
+  4. Оператор редактирует виджет
+    1. Оператор указывает текст сообщения
+    2. Оператор указывает список ответов на сообщение
+  5. Система устанавливает флаг сообщения "Не отправлено"
+  6. Система выполняет запрос к Базе Данных на создание записи о виджете сообщения
+
 end note
 @enduml
