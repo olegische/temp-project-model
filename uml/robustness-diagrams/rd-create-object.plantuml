@@ -14,31 +14,30 @@
 
 'entities'
 !$TableObj = "Table '" + $Obj + "'"
-!$TableR = "Table 'roles'"
 
 'boundaries'
 !$InterfaceMain = "Interface 'Dashboard'"
 !$InterfaceObjMethod = "Interface '" + $Method + " " + $Obj + "'"
 'error handling'
-!$ErrorMethodLimit = "Error '" + $Method + " " + $Obj + "'"
+!$ErrorMethod = "Error '" + $Method + " " + $Obj + "'"
 
 'controls'
 !$displayInterfaceMain = "display " + $InterfaceMain
 !$displayInterfaceObjMethod = "display " + $InterfaceObjMethod
 !$methodObj = $Method + " " + $Obj
 'error handling'
-!$checkMethod = "check limit '" + $Method + " " + $Obj + "'"
-!$displayError = "display " + $ErrorMethodLimit
+!$ErrorBody = "check limit"
+!$checkMethod = $ErrorBody + " '" + $Method + " " + $Obj + "'"
+!$displayError = "display " + $ErrorMethod
 
 actor "$Act" as act
 
 entity "$TableObj" as table_obj
-'entity "$TableR" as table_roles
 
 boundary "$InterfaceMain" as interface_main
 boundary "$InterfaceObjMethod" as interface_obj_method
 'error handling'
-boundary "$ErrorMethodLimit" as error_method #red
+boundary "$ErrorMethod" as error_method #red
 
 control "$displayInterfaceMain" as display_interface_main
 control "$displayInterfaceObjMethod" as display_interface_obj_method
@@ -51,7 +50,6 @@ act -- interface_main
 act -- interface_obj_method
 
 interface_main --> display_interface_obj_method : "$methodObj action"
-'display_interface_obj_method --> table_roles : "select Dashboard Roles list"
 display_interface_obj_method --> interface_obj_method
 interface_obj_method --> check_method : "save $Obj action"
 check_method --> method_obj : "successful"
@@ -59,7 +57,7 @@ method_obj --> table_obj : "insert $Obj"
 method_obj --> display_interface_main : "successful"
 display_interface_main --> interface_main
 'error handling'
-check_method --> display_error : "max limit"
+check_method --> display_error : "error"
 display_error --> error_method
 
 note as scenario
@@ -74,6 +72,10 @@ note as scenario
     2. Оператор указывает список ответов на сообщение
   5. Система устанавливает флаг сообщения "Не отправлено"
   6. Система выполняет запрос к Базе Данных на создание записи о виджете сообщения
+
+  #Exceptions
+  1.0.E1 Превышение лимита хранящихся одновременно сообщений
+  1. Система отображает сообщение о превышении лимита и невозможности добавления нового виджета сообщения
 
 end note
 @enduml
