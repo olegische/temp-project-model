@@ -6,76 +6,89 @@
 'dependencies: no
 
 @startuml
-!$Obj = "Message"
-!$Method = "create"
+!$Obj = "BLE Devices List"
+!$Method = "get"
 
 'actors'
-!$Act = "Operator"
+!$Act = "User"
+!$Contr = "Controller"
 
 'entities'
-!$TableObj = "Table '" + $Obj + "'"
+!$DBGATT = "Database 'GATT Specification'"
+!$DBDevices = "Database 'Known BLE Devices'"
 
 'boundaries'
-!$InterfaceMain = "Interface 'Dashboard'"
-!$InterfaceObjMethod = "Interface '" + $Method + " " + $Obj + "'"
+!$InterfaceMain = "Interface 'Main Menu'"
+!$InterfaceObjMethod = "Interface '" + $Obj + "'"
 'error handling'
-!$ErrorMethod = "Error '" + $Method + " " + $Obj + "'"
 
 'controls'
-!$displayInterfaceMain = "display " + $InterfaceMain
 !$displayInterfaceObjMethod = "display " + $InterfaceObjMethod
 !$methodObj = $Method + " " + $Obj
+!$waitTimeout = "wait for Response '" + $Method + " " + $Obj + "'"
+!$recognizeData = "recognize Advertising Data"
 'error handling'
-!$ErrorBody = "check limit"
-!$checkMethod = $ErrorBody + " '" + $Method + " " + $Obj + "'"
-!$displayError = "display " + $ErrorMethod
+!$displayErrorNoRoute = "display Error 'No route to Controller'"
+!$displayErrorNoBLE = "display Error 'Bluetooth unsupported'"
 
 actor "$Act" as act
+actor "$Contr" as contr
 
-entity "$TableObj" as table_obj
+entity "$DBGATT" as db_gatt
+entity "$DBDevices" as db_dev
 
 boundary "$InterfaceMain" as interface_main
 boundary "$InterfaceObjMethod" as interface_obj_method
 'error handling'
-boundary "$ErrorMethod" as error_method #red
 
-control "$displayInterfaceMain" as display_interface_main
+''control "$displayInterfaceMain" as display_interface_main
 control "$displayInterfaceObjMethod" as display_interface_obj_method
 control "$methodObj" as method_obj
+control "$waitTimeout" as wait_timeout
+control "$recognizeData" as recognize_ad
 'error handling'
-control "$checkMethod" as check_method
-control "$displayError" as display_error #red
+control "$displayErrorNoRoute" as display_error_no_route #red
+control "$displayErrorNoBLE" as display_error_no_ble #red
 
 act -- interface_main
 act -- interface_obj_method
 
-interface_main --> display_interface_obj_method : "$methodObj action"
+interface_main --> method_obj : "$methodObj action"
+method_obj -- contr : "send command"
+method_obj --> wait_timeout
+contr -- wait_timeout : "get response"
+wait_timeout --> recognize_ad : "ok"
+recognize_ad <-- db_gatt : "ad types, char & attr types"
+recognize_ad <-- db_dev : "specs for ad type '0xff'"
+recognize_ad --> display_interface_obj_method : "recognized data"
 display_interface_obj_method --> interface_obj_method
-interface_obj_method --> check_method : "save $Obj action"
-check_method --> method_obj : "successful"
-method_obj --> table_obj : "insert $Obj"
-method_obj --> display_interface_main : "successful"
-display_interface_main --> interface_main
 'error handling'
-check_method --> display_error : "error"
-display_error --> error_method
+wait_timeout --> display_error_no_route : "connection error"
+wait_timeout --> display_error_no_ble : "bluetooth error"
 
 note as scenario
 
-  # Normal Flow
-  1.0 create Message
-  1. Оператор указывает, что хочет добавить виджет сообщения на дэшборд
-  2. Система проверяет превышение лимита хранящихся одновременно сообщений
-  3. Система отображает виджет на дэшборде
-  4. Оператор редактирует виджет
-    1. Оператор указывает текст сообщения
-    2. Оператор указывает список ответов на сообщение
-  5. Система устанавливает флаг сообщения "Не отправлено"
-  6. Система выполняет запрос к Базе Данных на создание записи о виджете сообщения
+# Normal Flow
 
-  #Exceptions
-  1.0.E1 Превышение лимита хранящихся одновременно сообщений
-  1. Система отображает сообщение о превышении лимита и невозможности добавления нового виджета сообщения
+dev_l "get BLE Devices List"
+1. Пользователь указывает, что хочет просмотреть Bluetooth сеть
+2.ad_r read Advertising Data
+  1. Система отправляет запрос Контроллеру на чтение данных оповещения сети
+  2. Система получает данные оповещения по всем устройствам сети
+3.ad_re recognize Advertising Data
+  1. Система отправляет запрос в DB для получения спецификации GATT
+  2. Система отправляет запрос в DB для получения спецификации известных устройств
+  3. Система формирует список устройств, данные оповещения которых она смогла распознать
+4. Система отображает список устройств с распознанными данными
+
+# Exceptions
+
+dev_l.E1 Контроллер недоступен
+1. Система отображает сообщение о том, что контроллер недоступен
+
+dev_l.E2 Контроллер не имеет Bluetooth модуля
+1. Система отображает сообщение о том, что доступ к функции сканирования сети Bluetooth заблокирован
 
 end note
+
 @enduml
