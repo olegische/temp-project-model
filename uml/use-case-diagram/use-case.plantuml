@@ -6,14 +6,18 @@
 'dependencies: no
 
 @startuml
+
 left to right direction
 skinparam packageStyle rectangle
 allow_mixing
+
 'actors'
+
 !$Primary = "Actor1"
 !$Secondary = "Actor2"
 
 'use case'
+
 !$obj_create = "create Object"
 !$obj_read = "read Object"
 !$obj_update = "update Object"
@@ -23,20 +27,23 @@ allow_mixing
 actor "$Primary"
 actor "$Secondary"
 
-rectangle System{
-  rectangle UC1 {
-    usecase "$obj_create" as UC1
-    usecase "$obj_read" as UC1_1
-    usecase "$obj_update" as UC1_2
-    usecase "$obj_delete" as UC1_3
-    usecase "$obj_tag" as UC1_4
-    "$Primary" --> UC1
-      UC1 <.. UC1_1:extends
-        "$Secondary" -> UC1_2
-      UC1 <.. UC1_2:extends
-        UC1_2 -> "$Secondary"
-      UC1_3 .> UC1:extends
-      UC1_4 .up.> UC1:include
+rectangle System {
+
+  rectangle "Object Management" {
+    usecase "$obj_create" as obj_cr
+    usecase "$obj_read" as obj_rd
+    usecase "$obj_update" as obj_up
+    usecase "$obj_delete" as obj_dl
+    usecase "$obj_tag" as obj_tg
+    "$Primary" --> obj_cr
+      obj_cr <.. obj_rd : extends
+        "$Secondary" -> obj_up
+      obj_cr <.. obj_up : extends
+        obj_up -> "$Secondary"
+      obj_dl .> obj_cr : extends
+      obj_tg .up.> obj_cr : include
   }
+
 }
+
 @enduml
